@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dck63u260qqmc"]
+[gd_scene load_steps=3 format=3 uid="uid://dck63u260qqmc"]
 
 [ext_resource type="PackedScene" uid="uid://ctgee54hl34of" path="res://assets/mushroom.blend" id="1_gbhfv"]
-[ext_resource type="Script" path="res://Mushroom/AnimationPlayer.gd" id="2_eanv1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_55yjc"]
 transparency = 1
@@ -19,14 +18,14 @@ bones/11/rotation = Quaternion(-0.500726, 0.0971965, -0.0996385, 0.854341)
 bones/12/rotation = Quaternion(-0.0708616, -2.60328e-07, -0.0226757, 0.997228)
 
 [node name="Eyes" parent="Armature/Skeleton3D" index="0"]
-transform = Transform3D(0.1, -3.55271e-15, -1.42109e-15, -1.42109e-15, 0, -0.1, 3.55271e-15, 0.1, 3.38813e-22, -7.10543e-15, 0.92, 0.2)
+transform = Transform3D(0.1, -8.88178e-15, -4.26326e-15, -4.26326e-15, 0, -0.1, 8.88178e-15, 0.1, 1.01644e-21, -3.55271e-15, 0.92, 0.2)
 bone_idx = 8
 
 [node name="Eyes" parent="Armature/Skeleton3D/Eyes" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_55yjc")
 
 [node name="Hat" parent="Armature/Skeleton3D" index="1"]
-transform = Transform3D(0.525203, 0, -1.42109e-14, 5.59769e-15, 0.326281, 0.194329, 0, -0.146745, 0.432083, 3.55271e-15, 1.05604, -0.067031)
+transform = Transform3D(0.525203, -3.55271e-15, -7.10543e-15, 5.59769e-15, 0.326281, 0.194329, 0, -0.146745, 0.432083, 7.10543e-15, 1.05604, -0.067031)
 bone_idx = 9
 
 [node name="Hat" parent="Armature/Skeleton3D/Hat" index="0"]
@@ -35,5 +34,5 @@ surface_material_override/0 = SubResource("StandardMaterial3D_55yjc")
 [node name="Body" parent="Armature/Skeleton3D" index="2"]
 surface_material_override/0 = SubResource("StandardMaterial3D_55yjc")
 
-[node name="AnimationPlayer" parent="." index="1"]
-script = ExtResource("2_eanv1")
+[node name="Target" type="Node3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.116807, 0.224442, 0.207537)
