@@ -1,0 +1,48 @@
+[gd_scene load_steps=9 format=3 uid="uid://ckicknkh3liiq"]
+
+[ext_resource type="PackedScene" uid="uid://dgo2x4b1oou4e" path="res://Mushroom/Mushroom.tscn" id="2_c6ct2"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_e8f8f"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wsnox"]
+size = Vector3(10, 1, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jlfy1"]
+albedo_color = Color(0.4, 1, 0.4, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_efv4o"]
+size = Vector3(10, 1, 10)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ijthd"]
+
+[sub_resource type="Sky" id="Sky_k54y6"]
+sky_material = SubResource("ProceduralSkyMaterial_ijthd")
+
+[sub_resource type="Environment" id="Environment_pflnq"]
+background_mode = 2
+sky = SubResource("Sky_k54y6")
+ssao_enabled = true
+
+[node name="Node3D" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.642956, 0)
+physics_material_override = SubResource("PhysicsMaterial_e8f8f")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_wsnox")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+material_override = SubResource("StandardMaterial3D_jlfy1")
+mesh = SubResource("BoxMesh_efv4o")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.147013, 1.05914, 3.01828)
+environment = SubResource("Environment_pflnq")
+current = true
+
+[node name="mushroom" parent="." instance=ExtResource("2_c6ct2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.63513, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
