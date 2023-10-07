@@ -17,9 +17,9 @@ func _process(delta):
 	if Input.is_key_pressed(KEY_SPACE):
 		$"Physical Bones/Physical Bone Head".apply_impulse(Vector3(0, 1, 0))
 	if Input.is_key_pressed(KEY_Z):
-		$"Physical Bones/Physical Bone Torso".apply_impulse(Vector3(0, 0, 0.6))
-	if Input.is_key_pressed(KEY_S):
-		$"Physical Bones/Physical Bone Torso".apply_impulse(Vector3(0, 0, -0.6))
+		$"Physical Bones/Physical Bone Root".apply_impulse(target_skeleton.global_transform.basis.z * 0.2 + target_skeleton.global_transform.basis.y * 0.6)
+	#if Input.is_key_pressed(KEY_S):
+	#	$"Physical Bones/Physical Bone Torso".apply_impulse(Vector3(0, 0, -0.6))
 		
 func _physics_process(delta):
 	if not freefall:
