@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3lemxd104uf6"]
+
+[ext_resource type="PackedScene" uid="uid://cunre5emjvrjs" path="res://assets/dummy.blend" id="1_gf3ut"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ivkrs"]
+transparency = 1
+blend_mode = 1
+albedo_color = Color(0, 0.678431, 0.678431, 1)
+
+[node name="RagdollReference" instance=ExtResource("1_gf3ut")]
+
+[node name="Dummy_Helmet" parent="Rig/Skeleton3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.21587, -1.19209e-07)
+bone_idx = 15
+
+[node name="Dummy_Helmet" parent="Rig/Skeleton3D/Dummy_Helmet" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ivkrs")
+
+[node name="Dummy_TargetOnHisBack" parent="Rig/Skeleton3D" index="1"]
+transform = Transform3D(1, -2.11758e-22, -8.47033e-22, -1.05879e-22, 0.984808, -0.173648, 8.47033e-22, 0.173648, 0.984808, 4.23516e-22, 0.890235, -0.275074)
+bone_idx = 16
+
+[node name="Dummy_TargetOnHisBack" parent="Rig/Skeleton3D/Dummy_TargetOnHisBack" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ivkrs")
+
+[node name="Dummy_ArmLeft" parent="Rig/Skeleton3D" index="2"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ivkrs")
+
+[node name="Dummy_ArmRight" parent="Rig/Skeleton3D" index="3"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ivkrs")
+
+[node name="Dummy_Body" parent="Rig/Skeleton3D" index="4"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ivkrs")
+
+[node name="Dummy_Head" parent="Rig/Skeleton3D" index="5"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ivkrs")
+
+[node name="Dummy_LegLeft" parent="Rig/Skeleton3D" index="6"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ivkrs")
+
+[node name="Dummy_LegRight" parent="Rig/Skeleton3D" index="7"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ivkrs")

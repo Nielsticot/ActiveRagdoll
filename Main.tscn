@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://ckicknkh3liiq"]
+[gd_scene load_steps=10 format=3 uid="uid://ckicknkh3liiq"]
 
 [ext_resource type="PackedScene" uid="uid://dgo2x4b1oou4e" path="res://Mushroom/Mushroom.tscn" id="2_c6ct2"]
+[ext_resource type="PackedScene" uid="uid://capptllh0ce2y" path="res://Ragdoll/Ragdoll.tscn" id="2_sxudg"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_e8f8f"]
 
@@ -43,6 +44,9 @@ current = true
 
 [node name="mushroom" parent="." instance=ExtResource("2_c6ct2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.63513, 0)
+
+[node name="Ragdoll" parent="." instance=ExtResource("2_sxudg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.871384, 2.85664, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 0)
