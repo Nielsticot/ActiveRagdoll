@@ -8,7 +8,7 @@ extends Skeleton3D
 @export var angular_spring_damping: float = 80.0
 @export var max_angular_force: float = 9999.0
 
-var physics_bones: Array[Node]
+var physics_bones: Array
 var root_bone_id: int
 
 func _ready():
