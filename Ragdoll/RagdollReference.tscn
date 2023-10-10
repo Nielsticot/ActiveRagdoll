@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://6uouok0by1jr"]
 
 [ext_resource type="PackedScene" uid="uid://cunre5emjvrjs" path="res://assets/dummy.blend" id="1_gf3ut"]
-[ext_resource type="Script" path="res://Ragdoll/CCDIK.gd" id="2_46vf1"]
+[ext_resource type="Script" path="res://Ragdoll/FabrikIK.gd" id="2_nsf4d"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ivkrs"]
 transparency = 1
@@ -42,12 +42,12 @@ surface_material_override/0 = SubResource("StandardMaterial3D_ivkrs")
 [node name="Dummy_LegRight" parent="Rig/Skeleton3D" index="7"]
 surface_material_override/0 = SubResource("StandardMaterial3D_ivkrs")
 
-[node name="LeftLegIK" type="Node" parent="." index="1" node_paths=PackedStringArray("skeleton", "target")]
-script = ExtResource("2_46vf1")
-skeleton = NodePath("../Rig/Skeleton3D")
-rootBone = &"upperleg.l"
-tipBone = &"toes.l"
-target = NodePath("Target")
+[node name="FabrikIK" type="Node" parent="Rig/Skeleton3D" index="8" node_paths=PackedStringArray("skeleton", "target_node")]
+script = ExtResource("2_nsf4d")
+skeleton = NodePath("..")
+root_bone = &"upperleg.l"
+tip_bone = &"toes.l.leaf"
+target_node = NodePath("../../../Target")
 
-[node name="Target" type="Marker3D" parent="LeftLegIK" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.259823, 0.349797, 0.519456)
+[node name="Target" type="Marker3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.163296, 0.206674, 0.413157)

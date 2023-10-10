@@ -23,18 +23,17 @@ func _input(event):
 func _physics_process(delta):
 	if not freefall:
 		for b in physics_bones:
-			var target_root_bone_transform = target_skeleton.global_transform.inverse() * target_skeleton.get_bone_global_pose(root_bone_id)
-			var root_bone_transform = global_transform.inverse() * get_bone_global_pose(root_bone_id)
-			var root_rotation_difference: Basis = (target_root_bone_transform.basis * root_bone_transform.basis.inverse())
-			
-			var target_transform: Transform3D = target_skeleton.global_transform * target_skeleton.get_bone_global_pose(b.get_bone_id())
-			var current_transform: Transform3D = global_transform * get_bone_global_pose(b.get_bone_id())
-			var rotation_difference: Basis = (target_transform.basis * current_transform.basis.inverse())
-			
-			var torque = hookes_law((rotation_difference * root_rotation_difference.inverse()).get_euler(), b.angular_velocity, angular_spring_stiffness, angular_spring_damping)
-			torque = torque.limit_length(max_angular_force)
-			
-			b.angular_velocity += torque * delta
+			var boneId = b.get_bone_id()
+			if boneId != root_bone_id:
+				var root_bone_transform = get_bone_global_pose(root_bone_id)
+				var target_transform: Transform3D = target_skeleton.global_transform * target_skeleton.get_bone_global_pose(boneId)
+				var current_transform: Transform3D = global_transform * get_bone_global_pose(boneId)
+				var rotation_difference: Basis = (target_transform.basis * current_transform.basis.inverse())
+				
+				var torque = hookes_law(rotation_difference.get_euler(), b.angular_velocity, angular_spring_stiffness, angular_spring_damping)
+				torque = torque.limit_length(max_angular_force)
+				
+				b.angular_velocity += torque * delta
 
 func hookes_law(displacement: Vector3, current_velocity: Vector3, stiffness: float, damping: float) -> Vector3:
 	return (stiffness * displacement) - (damping * current_velocity)
