@@ -1,5 +1,5 @@
 @tool
-class_name FabrikIK
+class_name OldFabrikIK
 extends Node
 
 const ITERATIONS := 5
@@ -23,6 +23,7 @@ func _ready():
 		bone.id = current
 		bone.name = skeleton.get_bone_name(current)
 		bone.pose = skeleton.get_bone_global_pose(current)
+		bone.original_pose = skeleton.get_bone_global_pose_no_override(current)
 		bone.length = bone.pose.origin.distance_to(previous_pos)
 		_bones.append(bone)
 		if current == root:
@@ -48,7 +49,7 @@ func _run_ik():
 		# Get target transform relative to skeleton
 		_backward_pass(target)
 		_forward_pass(base)
-		_apply_rotation()
+		_apply_rotation(target)
 
 func _apply_ik():
 	for bone in _bones:
@@ -63,6 +64,11 @@ func _backward_pass(target: Transform3D):
 		var curr = _bones[i]
 		var r = prev.pose.origin - curr.pose.origin
 		var l = curr.length / r.length()
+		
+		var min_angle = Vector2(-10, 0)
+		var max_angle = Vector2(10, 0)
+		#l = clamp(l, min_angle, max_angle)
+		
 		curr.pose.origin = prev.pose.origin.lerp(curr.pose.origin, l)
 	
 func _forward_pass(base: Transform3D):
@@ -72,14 +78,23 @@ func _forward_pass(base: Transform3D):
 		var next = _bones[i + 1]
 		var r = next.pose.origin - curr.pose.origin
 		var l = curr.length / r.length()
+		
+		var min_angle = Vector3(-10, 0, 0)
+		var max_angle = Vector3(10, 0, 0)
+		#l = clamp(l, -10, 30)
+		
 		next.pose.origin = curr.pose.origin.lerp(next.pose.origin, l)
 		
-func _apply_rotation():
-	for i in range(_bones.size() - 1):
+func _apply_rotation(target: Transform3D):
+	for i in range(_bones.size() - 2):
 		var curr = _bones[i]
 		var next = _bones[i + 1]
-		var dir = (next.pose.origin - curr.pose.origin).normalized()
-		var axis = Vector3.UP.cross(dir).normalized()
-		var angle = acos(Vector3.UP.dot(dir))
+		
+		var forward = (next.original_pose.origin - curr.original_pose.origin).normalized()
+		var dir = next.pose.origin.direction_to(curr.pose.origin)
+		var axis = forward.cross(dir).normalized()
+		var dot = forward.dot(dir)
+		dot = clamp(dot, -1, 1)
+		var angle = acos(dot)
 		var basis = Basis(axis, angle)
 		curr.pose.basis = basis

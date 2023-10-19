@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://6uouok0by1jr"]
+[gd_scene load_steps=5 format=3 uid="uid://6uouok0by1jr"]
 
 [ext_resource type="PackedScene" uid="uid://cunre5emjvrjs" path="res://assets/dummy.blend" id="1_gf3ut"]
-[ext_resource type="Script" path="res://Ragdoll/FabrikIK.gd" id="2_nsf4d"]
+[ext_resource type="Script" path="res://FabrikIK/IKSolver.gd" id="2_gp5sg"]
+[ext_resource type="Script" path="res://FabrikIK/IKChain.gd" id="2_sos0w"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ivkrs"]
 transparency = 1
@@ -10,15 +11,18 @@ albedo_color = Color(0, 0.678431, 0.678431, 1)
 
 [node name="RagdollReference" instance=ExtResource("1_gf3ut")]
 
+[node name="Skeleton3D" parent="Rig" index="0"]
+bones/1/rotation = Quaternion(0.000474975, -0.114525, 0.000474975, 1.00048)
+
 [node name="Dummy_Helmet" parent="Rig/Skeleton3D" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.21587, -1.19209e-07)
+transform = Transform3D(0.974132, -0.0010445, -0.225978, 0.00082993, 0.999999, -0.0010445, 0.225979, 0.00082993, 0.974132, -0.000645715, 1.21587, 0.000512974)
 bone_idx = 15
 
 [node name="Dummy_Helmet" parent="Rig/Skeleton3D/Dummy_Helmet" index="0"]
 surface_material_override/0 = SubResource("StandardMaterial3D_ivkrs")
 
 [node name="Dummy_TargetOnHisBack" parent="Rig/Skeleton3D" index="1"]
-transform = Transform3D(1, -2.11758e-22, -8.47033e-22, -1.05879e-22, 0.984808, -0.173648, 8.47033e-22, 0.173648, 0.984808, 4.23516e-22, 0.890235, -0.275074)
+transform = Transform3D(0.974132, -0.0402694, -0.222364, 0.00082993, 0.984626, -0.174677, 0.225979, 0.169974, 0.959188, 0.0618552, 0.890522, -0.267716)
 bone_idx = 16
 
 [node name="Dummy_TargetOnHisBack" parent="Rig/Skeleton3D/Dummy_TargetOnHisBack" index="0"]
@@ -42,12 +46,42 @@ surface_material_override/0 = SubResource("StandardMaterial3D_ivkrs")
 [node name="Dummy_LegRight" parent="Rig/Skeleton3D" index="7"]
 surface_material_override/0 = SubResource("StandardMaterial3D_ivkrs")
 
-[node name="FabrikIK" type="Node" parent="Rig/Skeleton3D" index="8" node_paths=PackedStringArray("skeleton", "target_node")]
-script = ExtResource("2_nsf4d")
-skeleton = NodePath("..")
-root_bone = &"upperleg.l"
-tip_bone = &"toes.l.leaf"
-target_node = NodePath("../../../Target")
+[node name="RootIK" type="Node" parent="." index="1" node_paths=PackedStringArray("root_node")]
+script = ExtResource("2_gp5sg")
+root_node = NodePath("../RootTarget")
 
-[node name="Target" type="Marker3D" parent="." index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.163296, 0.206674, 0.413157)
+[node name="SpineChain" type="Node" parent="RootIK" index="0"]
+
+[node name="TorsoCentroid" type="Node" parent="RootIK/SpineChain" index="0"]
+
+[node name="HeadChain" type="Node" parent="RootIK/SpineChain/TorsoCentroid" index="0"]
+
+[node name="Target" type="Marker3D" parent="RootIK/SpineChain/TorsoCentroid/HeadChain" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.29313, 0)
+
+[node name="LeftArmChain" type="Node" parent="RootIK/SpineChain/TorsoCentroid" index="1"]
+
+[node name="Target" type="Marker3D" parent="RootIK/SpineChain/TorsoCentroid/LeftArmChain" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.971866, 1.1248, 0)
+
+[node name="RightArmChain" type="Node" parent="RootIK/SpineChain/TorsoCentroid" index="2"]
+
+[node name="Target" type="Marker3D" parent="RootIK/SpineChain/TorsoCentroid/RightArmChain" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.965701, 1.12627, 0)
+
+[node name="LeftLegChain" type="Node" parent="RootIK" index="1" node_paths=PackedStringArray("skeleton")]
+script = ExtResource("2_sos0w")
+skeleton = NodePath("../../Rig/Skeleton3D")
+root_bone = &"hips"
+tip_bone = &"toes.l.leaf"
+
+[node name="Target" type="Marker3D" parent="RootIK/LeftLegChain" index="0"]
+transform = Transform3D(1, 0, 0, 0, 0.925897, 0.377776, 0, -0.377776, 0.925897, -0.116136, -0.274278, 0.186007)
+
+[node name="RightLegChain" type="Node" parent="RootIK" index="2"]
+
+[node name="Target" type="Marker3D" parent="RootIK/RightLegChain" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.170903, 0, 0)
+
+[node name="RootTarget" type="Marker3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.406524, 0)
